@@ -19,10 +19,3 @@ spring:
         max-idle: 8     #最大空闲连接，默认8
         max-wait: -1    #最大阻塞等待时间，负值表示没限制，默认-1
         max-active: 20  #最大连接数，负值表示没有限制，默认8
-aliyun:
-  sms:
-    regionId: cn-hangzhou
-    keyId: LTAI5t5vGZGsrkurPYMvsqhg
-    keySecret: 2Ol0IDw2Ad8jG4fTxLC5DiOSwtUpWO
-    templateCode: SMS_154950909 #测试专用模板Code
-    signName: "阿里云短信测试" #测试专用签名

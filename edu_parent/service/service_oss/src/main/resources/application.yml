@@ -10,11 +10,3 @@ spring:
       discovery:
         server-addr: localhost:8848 # nacos服务地址
 
-
-aliyun:
-  oss:
-    endpoint: oss-cn-beijing.aliyuncs.com
-    keyid: LTAI5t8qiVT6KT1jdchXC74u
-    keysecret: nQXjrQQ71KIkWPa2Ia5ORlT60hA3ft
-    #bucket可以在控制台创建，也可以使用java代码创建，注意先测试bucket是否已被占用
-    bucketname: edu-file-2022-5-1

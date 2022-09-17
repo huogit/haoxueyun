@@ -43,15 +43,3 @@ ribbon: #负载均衡
 feign:
   sentinel:
     enabled: true
-
-weixin:
-  pay:
-    #关联的公众号appid
-    appId: wxf913bfa3a2c7eeeb
-    #商户号
-    partner: 1543338551
-    #商户key
-    partnerKey: atguigu3b0kn9g5v426MKfHQH7X8rKwb
-    #回调地址
-    #notifyUrl: http://imhelen.free.idcfengye.com/api/trade/weixin-pay/callback/notify
-    notifyUrl: http://localhsot:8170/api/trade/weixin-pay/callback/notify
