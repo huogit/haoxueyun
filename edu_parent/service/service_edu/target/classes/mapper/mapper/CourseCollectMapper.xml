@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prestrive.com.service.edu.mapper.CourseCollectMapper">
+
+    <select id="findListByMemberId" resultType="com.prestrive.com.service.edu.entity.vo.CourseCollectVo">
+
+        select
+            cl.id,
+            c.id as courseId,
+            c.title as title,
+            convert(c.price,DECIMAL(8,2)) as price,
+            c.lesson_num as lessonNum,
+            c.cover as cover,
+            cl.gmt_create as gmtCreate,
+            t.name as teacherName
+        from edu_course_collect as cl
+        LEFT join edu_course as c  on c.id = cl.course_id
+        LEFT join edu_teacher as t on t.id = c.teacher_id
+           ${ew.customSqlSegment}
+    </select>
+</mapper>

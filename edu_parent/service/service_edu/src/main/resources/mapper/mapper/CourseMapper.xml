@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prestrive.com.service.edu.mapper.CourseMapper">
+
+    <sql id="columns" >
+        c.id,
+        c.title,
+        s1.title AS subjectParentTitle,
+        s2.title AS subjectTitle,
+        t.name AS teacherName,
+        c.lesson_num AS lessonNum,
+        CONVERT(c.price, DECIMAL(8,2)) AS price,
+        c.cover,
+        c.buy_count AS buyCount,
+        c.view_count AS viewCount,
+        c.status,
+        c.gmt_create AS gmtCreate
+
+    </sql>
+
+    <sql id="tables">
+        edu_course as c
+        LEFT JOIN edu_teacher as t on c.teacher_id = t.id
+	    LEFT JOIN edu_subject as s1 on c.subject_parent_id = s1.id
+	    LEFT JOIN edu_subject as s2 on c.subject_id = s2.id
+    </sql>
+
+<!--    分页查询课程信息列表-->
+    <select id="findCourseVosByPageAndCourseQueryVo"
+            resultType="com.prestrive.com.service.edu.entity.vo.CourseVo">
+    SELECT
+        <include refid="columns"/>
+    From
+        <include refid="tables"/>
+        ${ew.customSqlSegment}
+    </select>
+
+<!--    查询课程发布信息-->
+    <select id="findCoursePublishVoById" resultType="com.prestrive.com.service.edu.entity.vo.CoursePublishVo">
+        SELECT
+            c.id,
+            c.title,
+            c.cover,
+            c.lesson_num AS lessonNum,
+            s1.title AS subjectParentTitle,
+            s2.title AS subjectTitle,
+            t.name AS teacherName,
+            -- DECIMAL(M,D)，M是数字最大位数，D是小数点右侧数字个数，整数M-D位
+            CONVERT(c.price,decimal(8,2)) AS price
+        FROM
+            <include refid="tables"/>
+        WHERE
+            c.id = #{id}
+    </select>
+
+
+
+    <select id="selectWebCourseVoById" resultType="com.prestrive.com.service.edu.entity.vo.WebCourseVo">
+        SELECT
+        c.id,
+        c.title,
+        c.price,
+        c.lesson_num as lessonNUm,
+        c.cover,
+        c.buy_count as buyCount,
+        c.view_count as viewCount,
+
+        cd.description,
+
+        t.id as teacherId,
+        t.name as teacherName,
+        t.intro,
+        t.avatar,
+
+        s1.id as subjectLevelOneId,
+        s1.title as subjectLevelOne,
+        s2.id as subjectLevelTwoId,
+        s2.title as subjectLevelTwo
+        FROM
+        edu_course as c
+        LEFT JOIN edu_course_description as cd on c.id = cd.id
+        LEFT JOIN edu_teacher as t on t.id = c.teacher_id
+        LEFT JOIN edu_subject as s1 on s1.id = c.subject_parent_id
+        LEFT JOIN edu_subject as s2 on s2.id = c.subject_id
+        WHERE
+        c.id = #{id}
+    </select>
+    <select id="selectCourseDtoById" resultType="com.prestrive.com.service.base.dto.CourseDto">
+    select
+    c.id as id,
+    c.title as title,
+    CONVERT(c.price, DECIMAL(8,2)) as price ,
+    c.cover as cover ,
+    t.name as teacherName
+    from
+    edu_course as c
+    LEFT JOIN
+    edu_teacher as t
+    on
+    c.teacher_id = t.id
+    WHERE c.id = #{id}
+
+    </select>
+
+    <select id="selectNewCourseNumByDay" resultType="java.lang.Integer">
+
+        SELECT count(id) FROM edu_course where DATE(gmt_create) = #{day}
+
+    </select>
+</mapper>

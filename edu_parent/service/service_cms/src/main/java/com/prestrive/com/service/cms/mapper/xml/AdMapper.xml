@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prestrive.com.service.cms.mapper.AdMapper">
+
+    <select id="findAdVoListByPage" resultType="com.prestrive.com.service.cms.entity.vo.AdVo">
+        select
+            ad.id as id,
+            ad.title as title,
+            ad.sort as sort,
+            ad_type.title as type
+        FROM cms_ad as ad
+        LEFT JOIN cms_ad_type as ad_type ON ad.type_id = ad_type.id
+        ${ew.customSqlSegment}
+
+    </select>
+</mapper>
